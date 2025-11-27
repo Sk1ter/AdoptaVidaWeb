@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AdoptaVida - Pago</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+	<link rel="icon" type="image/png" th:href="@{/img/FaviconAdoptaVida.png}">
+    <script src="https://kit.fontawesome.com/2794a58874.js"></script>
+</head>
+
+<body>
+    <header class="border-bottom bg-white">
+        <nav class="container d-flex align-items-center justify-content-between py-2">
+            <a th:href="@{/events}" class="navbar-brand d-flex align-items-center gap-1 m-0">
+                <img src="/img/AdoptaVidaLogo.png" alt="Logo" width="130" class="me-2" />
+            </a>
+
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-icon btn-light position-relative" data-bs-toggle="offcanvas"
+                    data-bs-target="#notifCanvas" aria-controls="notifCanvas">
+                    <i class="fa-solid fa-bell"></i>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle p-1 bg-warning border border-light rounded-circle">
+                        <span class="visually-hidden">Nuevas notificaciones</span>
+                    </span>
+                </button>
+
+                <div class="dropdown">
+                    <button class="btn d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/img/AvatarUser.png" width="32" height="32" class="rounded-circle object-fit-cover"
+                            alt="Foto de usuario" />
+                        <span class="fw-semibold text-body">Pepito Otilio</span>
+                        <i class="bi bi-caret-down-fill small text-secondary"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" th:href="@{/profile}"><i
+                                    class="fa-solid fa-user"></i> Perfil</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" th:href="@{/configuration}"><i
+                                    class="fa-solid fa-gear"></i> Configuración</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" th:href="@{/support}"><i
+                                    class="fa-solid fa-circle-info"></i> Soporte</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li>
+                        	<form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit"
+                                    class="dropdown-item d-flex align-items-center gap-2 text-danger border-0 bg-transparent">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notifCanvas" aria-labelledby="notifCanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="notifCanvasLabel">Notificaciones</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush small">
+
+                <div class="list-group-item d-flex align-items-start justify-content-between gap-3 notif-item unread" th:each="notif : ${notificaciones}" th:classappend="${!notif.leido} ? ' unread'">
+                    <div class="d-flex align-items-start gap-3">
+                        <span class="notif-icon" th:classappend=" ' ' + ${notif.color}">
+                        	<i class="fa-solid" th:classappend=" ' ' + ${notif.icono}"></i>
+                    	</span>
+                        <div>
+                            <div class="fw-semibold mb-1" th:text="${notif.titulo}"></div>
+                            <div class="text-secondary" th:text="${notif.mensaje}"></div>
+                            <div class="text-muted mt-1"><i class="bi bi-clock me-1"></i><span th:text="${notif.hora}"></span></div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-secondary p-0" data-bs-toggle="dropdown"
+                            aria-label="Más acciones">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Ver detalle</a></li>
+                            <li><a class="dropdown-item" href="#">Marcar como leído</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#">Eliminar</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="py-4 mb-5 mt-5">
+        <div class="container wrap-page mb-5 mt-5">
+            <div class="row g-4 mb">
+                <div class="col-12 col-lg-7">
+                    <div class="soft-card rounded-14 p-3 mb-3">
+                        <small class="text-secondary">Choose one of the payment options</small>
+                    </div>
+
+                    <button
+                        class="option w-100 rounded-12 px-3 py-3 d-flex align-items-center justify-content-between mb-2">
+                        <span class="d-flex align-items-center gap-2">
+                            <span class="icon-pill"><i class="fa-brands fa-apple"></i></span>
+                            <span class="fw-semibold">Pay</span>
+                        </span>
+                        <i class="bi bi-chevron-right text-secondary"></i>
+                    </button>
+
+                    <button
+                        class="option w-100 rounded-12 px-3 py-3 d-flex align-items-center justify-content-between mb-3">
+                        <span class="d-flex align-items-center gap-2">
+                            <span class="icon-pill"><i class="fa-brands fa-google"></i></span>
+                            <span class="fw-semibold">Pay</span>
+                        </span>
+                        <i class="bi bi-chevron-right text-secondary"></i>
+                    </button>
+
+                    <div class="option active w-100 rounded-12 px-3 py-3 mb-2">
+                        <div class="d-flex align-items-start gap-3">
+                            <span class="badge-visa mt-1">VISA</span>
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold">Pagar con tarjeta</div>
+                                <small class="text-secondary">Para pagar, introduzca los datos de su tarjeta de pago
+                                    VISA, MasterCard o American Express</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Internet banking -->
+                    <div class="option w-100 rounded-12 px-3 py-3">
+                        <div class="d-flex align-items-start gap-3">
+                            <span class="icon-circle"><i class="fa-solid fa-building-columns"></i></span>
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold">Pagar mediante banca online</div>
+                                <small class="text-secondary d-block">¿Tienes acceso a la banca online y quieres pagar
+                                    al
+                                    instante? Solo tienes que seleccionar tu banco y realizar el
+                                    pago.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-5">
+                    <div class="right-card rounded-14 p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small class="text-secondary">Monto total</small>
+                        </div>
+                        <div class="price-lg mb-3">S/. 100.00</div>
+
+                        <div class="d-flex flex-column gap-2">
+                            <div class="d-flex justify-content-between align-items-center line-item">
+                                <small>Apoyo a Refugio ...</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="right-card rounded-14 p-3 mb-3">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="icon-pill"><i class="bi bi-shield-lock"></i></div>
+                            <small class="text-secondary">
+                                Tu pago es 100% seguro. Utilizamos cifrado para proteger tus
+                                datos y solo trabajamos con plataformas de pago verificadas.
+                                Tu confianza es nuestra prioridad.
+                            </small>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-continue w-100 rounded-12 py-3">
+                        Proceder con el pago <i class="bi bi-chevron-right ms-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer text-light pt-5">
+        <div class="container pb-4">
+            <div class="row gy-4">
+                <div class="col-lg-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <h4 class="mb-0 fw-bold">Adopta Vida</h4>
+                    </div>
+                    <p class="text-secondary mb-4">
+                        Somos una organización dedicada a rescatar, cuidar y encontrar
+                        hogares amorosos para mascotas en situación de abandono. ¡Cada
+                        adopción cambia una vida!
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-facebook"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-tiktok"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-x-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <h5 class="fw-semibold mb-3">Dirección y contacto</h5>
+                    <ul class="list-unstyled text-secondary m-0">
+                        <li class="mb-2">
+                            <i class="bi bi-geo-alt text-info me-2"></i>Av. Los Rescatistas
+                            245, Lima, Perú
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-telephone text-info me-2"></i>+51 987 654 321
+                        </li>
+                        <li>
+                            <i class="bi bi-envelope text-info me-2"></i>contacto@huellitasfelices.org
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h5 class="fw-semibold mb-3">Enlaces rápidos</h5>
+                    <ul class="list-unstyled m-0">
+                        <li class="mb-2">
+                            <a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Inicio</a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Adoptar</a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Donar</a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Sobre Nosotrps</a>
+                        </li>
+                        <li>
+                            <a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Soporte</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h5 class="fw-semibold mb-3">Boletín informativo</h5>
+                    <p class="text-secondary">
+                        Únete a nuestra comunidad y recibe noticias sobre adopciones,
+                        campañas y eventos solidarios.
+                    </p>
+                    <form class="input-group">
+                        <input type="email"
+                            class="form-control form-control-lg bg-transparent text-light border-secondary text-wite"
+                            placeholder="Your email" aria-label="Email" />
+                        <button class="btn btn-info text-white px-4" type="button">
+                            Suscribirme
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom text-secondary py-3">
+            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <small>© <span class="text-light">Adopta Vida</span>, Todos los derechos
+                    reservados.</small>
+                <small>Creado por
+                    <a class="text-info text-decoration-none" href="#">Grupo 2</a></small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

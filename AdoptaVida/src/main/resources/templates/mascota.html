@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AdoptaVida - Mascotas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" th:href="@{/img/FaviconAdoptaVida.png}">
+    <script src="https://kit.fontawesome.com/2794a58874.js"></script>
+</head>
+
+<body>
+
+    <header class="border-bottom bg-white">
+        <nav class="container d-flex align-items-center justify-content-between py-2">
+            <a th:href="@{/events}" class="navbar-brand d-flex align-items-center gap-1 m-0">
+                <img src="/img/AdoptaVidaLogo.png" alt="Logo" width="130" class="me-2">
+            </a>
+
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-icon btn-light position-relative" data-bs-toggle="offcanvas"
+                    data-bs-target="#notifCanvas" aria-controls="notifCanvas">
+                    <i class="fa-solid fa-bell"></i>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle p-1 bg-warning border border-light rounded-circle">
+                        <span class="visually-hidden">Nuevas notificaciones</span>
+                    </span>
+                </button>
+
+                <div class="dropdown">
+                    <button class="btn d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/img/AvatarUser.png" width="32" height="32" class="rounded-circle object-fit-cover"
+                            alt="Foto de usuario">
+                        <span class="fw-semibold text-body" th:text="${usuarioLogueado != null ? usuarioLogueado.nombres : ''}"></span>
+                        <i class="bi bi-caret-down-fill small text-secondary"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li><a class="dropdown-item d-flex align-items-center gap-2" th:href="@{/profile}"><i
+                                    class="fa-solid fa-user"></i> Perfil</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2" th:href="@{/configuration}"><i
+                                    class="fa-solid fa-gear"></i> Configuración</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2" th:href="@{/support}"><i
+                                    class="fa-solid fa-circle-info"></i> Soporte</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                        	<form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit"
+                                    class="dropdown-item d-flex align-items-center gap-2 text-danger border-0 bg-transparent">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="donate-hero2 position-relative text-white">
+        <div class="donate-bg"></div>
+
+        <div class="container position-relative py-5">
+            <div class="col-lg-7 col-md-9">
+                <div class="d-flex align-items-start gap-3 mb-3">
+                    <span class="donate-accent"></span>
+                    <p class="small fw-semibold mb-0 text-uppercase">Oportunidad de ayudar</p>
+                </div>
+
+                <h2 class="display-4 fw-bold lh-1 mb-3">Cambia <br> la vida de un amigo peludo</h2>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notifCanvas" aria-labelledby="notifCanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="notifCanvasLabel">Notificaciones</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush small">
+
+                <div class="list-group-item d-flex align-items-start justify-content-between gap-3 notif-item unread" th:each="notif : ${notificaciones}" th:classappend="${!notif.leido} ? ' unread'">
+                    <div class="d-flex align-items-start gap-3">
+                        <span class="notif-icon" th:classappend=" ' ' + ${notif.color}">
+                        	<i class="fa-solid" th:classappend=" ' ' + ${notif.icono}"></i>
+                    	</span>
+                        <div>
+                            <div class="fw-semibold mb-1" th:text="${notif.titulo}"></div>
+                            <div class="text-secondary" th:text="${notif.mensaje}"></div>
+                            <div class="text-muted mt-1"><i class="bi bi-clock me-1"></i><span th:text="${notif.hora}"></span></div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-secondary p-0" data-bs-toggle="dropdown"
+                            aria-label="Más acciones">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Ver detalle</a></li>
+                            <li><a class="dropdown-item" href="#">Marcar como leído</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#">Eliminar</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="py-4" style="background: #f7f7fb">
+        <div class="container">
+
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <a th:href="@{/events}" class="cause-pill shadow-sm">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Refugios</span>
+                </a>
+
+                <a th:href="@{/animalAdopts}" class="cause-pill shadow-sm active">
+                    <i class="fa-solid fa-dog"></i>
+                    <span>Animales</span>
+                </a>
+
+                <a href="#" class="cause-pill shadow-sm" aria-current="page">
+                    <i class="fa-solid fa-ellipsis"></i>
+                    <span>Otros</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <header class="pet-hero py-3">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a th:href="@{/animalAdopts}" class="text-decoration-none">Mascotas</a></li>
+                    <li class="breadcrumb-item active" th:text="${mascota.nombre}" aria-current="page"></li>
+                </ol>
+            </nav>
+            <h1 class="h3 fw-bold mb-0">Conoce a <span class="text-warning" th:text="${mascota.nombre}"></span></h1>
+        </div>
+    </header>
+
+    <main class="py-4">
+        <div class="container">
+            <div class="row g-4">
+
+                <div class="col-12 col-lg-6">
+                    <img src="/img/Adopta4.png" alt="Luna" class="pet-photo">
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="info-card p-3 p-lg-4 mb-3">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                            <span class="badge rounded-pill badge-soft"><i class="fa-solid fa-paw fw-semibold d-flex align-items-center gap-2"></i></span>
+                        </div>
+
+                        <div class="row g-3 medium">
+                            <div class="col-6"><i class="fa-solid fa-dog fw-semibold d-flex align-items-center gap-2"></i><span th:text="${mascota.especie}"></span></div>
+                            <div class="col-6"><i class="fa-solid fa-paw fw-semibold d-flex align-items-center gap-2"></i><span th:text="${mascota.raza}"></span></div>
+                            <div class="col-6"><i class="fa-solid fa-calendar-days fw-semibold d-flex align-items-center gap-2"></i><span th:text="${mascota.edadMeses} + ' meses'"></span></div>
+                            <div class="col-6"><i class="fa-solid fa-heart-pulse fw-semibold d-flex align-items-center gap-2"></i><span th:text="${mascota.salud}"></span></div> 
+                        </div>
+
+                        <hr class="my-4">
+                        
+                        <div>
+                    		<h4 class="fw-bold mb-3">Su historia</h4>
+                    		<p class="lead mb-3">
+                        		Luna fue rescatada cerca de un parque. Al principio estaba asustada, pero con cuidados y cariño
+                        		recuperó su confianza. Hoy es juguetona, curiosa y le encanta perseguir pelotas y dormir al sol.
+                    		</p>
+                        </div>
+                        
+                        <div>
+                        	<div class="fw-semibold d-flex align-items-center gap-2"><i class="fa-solid fa-house"></i>Refugio “Huellitas Felices”</div>
+                        	<small class="text-secondary">Av. Los Rescatistas 245, Lima • +51 987 654 321</small>
+                        </div>
+                        
+						<hr class="my-4">
+						
+                        <div class="d-grid d-sm-flex gap-2">
+                            <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal"
+                                data-bs-target="#adoptModal">
+                                Adoptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="adoptModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-header">
+                    <h5 class="modal-title">Solicitud de adopción – Luna</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small text-secondary">Nombre completo</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small text-secondary">Correo</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-secondary">Cuéntanos sobre tu hogar</label>
+                                <textarea class="form-control" rows="3"
+                                    placeholder="Espacio, familia, otras mascotas…"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Enviar solicitud</button>
+                    <button class="btn btn-outline-primary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer text-light pt-5">
+        <div class="container pb-4">
+            <div class="row gy-4">
+                <div class="col-lg-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <h4 class="mb-0 fw-bold">Adopta Vida</h4>
+                    </div>
+                    <p class="text-secondary mb-4">Somos una organización dedicada a rescatar, cuidar y encontrar
+                        hogares amorosos para mascotas en situación de abandono. ¡Cada adopción cambia una vida!</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-facebook"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-tiktok"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-x-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-3" href="#"><i
+                                class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <h5 class="fw-semibold mb-3">Dirección y contacto</h5>
+                    <ul class="list-unstyled text-secondary m-0">
+                        <li class="mb-2"><i class="bi bi-geo-alt text-info me-2"></i>Av. Los Rescatistas 245, Lima, Perú
+                        </li>
+                        <li class="mb-2"><i class="bi bi-telephone text-info me-2"></i>+51 987 654 321</li>
+                        <li><i class="bi bi-envelope text-info me-2"></i>contacto@huellitasfelices.org</li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h5 class="fw-semibold mb-3">Enlaces rápidos</h5>
+                    <ul class="list-unstyled m-0">
+                        <li class="mb-2"><a class="footer-link" href="#"><i
+                                    class="bi bi-chevron-right me-1"></i>Inicio</a></li>
+                        <li class="mb-2"><a class="footer-link" href="#"><i
+                                    class="bi bi-chevron-right me-1"></i>Adoptar</a></li>
+                        <li class="mb-2"><a class="footer-link" href="#"><i
+                                    class="bi bi-chevron-right me-1"></i>Donar</a></li>
+                        <li class="mb-2"><a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Sobre
+                                Nosotrps</a></li>
+                        <li><a class="footer-link" href="#"><i class="bi bi-chevron-right me-1"></i>Soporte</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3">
+                    <h5 class="fw-semibold mb-3">Boletín informativo</h5>
+                    <p class="text-secondary">Únete a nuestra comunidad y recibe noticias sobre adopciones, campañas y
+                        eventos solidarios.</p>
+                    <form class="input-group">
+                        <input type="email"
+                            class="form-control form-control-lg bg-transparent text-light border-secondary text-wite"
+                            placeholder="Your email" aria-label="Email">
+                        <button class="btn btn-info text-white px-4" type="button">Suscribirme</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom text-secondary py-3">
+            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <small>© <span class="text-light">Adopta Vida</span>, Todos los derechos reservados.</small>
+                <small>Creado por <a class="text-info text-decoration-none" href="#">Grupo 2</a></small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
