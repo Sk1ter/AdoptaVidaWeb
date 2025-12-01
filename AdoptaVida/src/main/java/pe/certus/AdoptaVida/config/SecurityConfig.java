@@ -14,40 +14,50 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
             .csrf(csrf -> csrf.disable())
+
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/", "/css/**", "/img/**", "/register").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/register", "/events/register", "/dashboardAnimals/register").permitAll()
-                    .anyRequest().authenticated()
+
+                .requestMatchers("/api/auth/**").permitAll()
+
+
+                .requestMatchers("/", "/css/**", "/img/**").permitAll()
+                .requestMatchers("/login", "/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/register", "/api/auth/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/events/register", "/dashboardAnimals/register").permitAll()
+                .anyRequest().authenticated()
             )
+
             .formLogin(login -> login
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/events", true)
-                    .failureUrl("/login?error")
-                    .permitAll()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/events", true)
+                .failureUrl("/login?error")
+                .permitAll()
             )
+
             .logout(logout -> logout
-            	    .logoutUrl("/logout")
-            	    .logoutSuccessUrl("/")             
-            	    .invalidateHttpSession(true)       
-            	    .deleteCookies("JSESSIONID")       
-            	    .permitAll()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
             );
 
         return http.build();
     }
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
+            throws Exception {
         return authConfig.getAuthenticationManager();
     }
 }

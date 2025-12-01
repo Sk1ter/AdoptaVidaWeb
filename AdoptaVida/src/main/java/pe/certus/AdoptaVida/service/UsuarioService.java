@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import pe.certus.AdoptaVida.model.Usuario;
 import pe.certus.AdoptaVida.repository.UsuarioRepository;
 
-
 @Service
 public class UsuarioService {
 
@@ -39,5 +38,9 @@ public class UsuarioService {
 
     public Usuario obtenerPorEmail(String email) {
         return repo.findByEmail(email);
+    }
+
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
