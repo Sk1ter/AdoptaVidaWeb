@@ -1,0 +1,266 @@
+/* ESTILSO PARA EL TOP BAR */
+.social-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #d4a017;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.social-icon.facebook:hover {
+    background-color: #1877F2;
+}
+
+.social-icon.twitter:hover {
+    background-color: #000;
+}
+
+.social-icon.instagram:hover {
+    background: radial-gradient(circle at 30% 107%, 
+        #fdf497 0%, 
+        #fdf497 5%, 
+        #fd5949 45%, 
+        #d6249f 60%, 
+        #285AEB 90%
+    );
+}
+
+.social-icon.youtube:hover {
+    background-color: #FF0000;
+}
+
+.topbar span {
+    line-height: 1;
+}
+
+/* ESTILOS PARA EL NAVBAR */
+
+#navbarScroll {
+    background-color: rgba(0, 0, 0, 1) !important;
+    transition: background-color .35s ease, backdrop-filter .35s ease, padding .25s ease;
+}
+
+#navbarScroll.navbar-transparent {
+    background-color: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(8px);
+}
+
+.nav-link-premium {
+    color: #ffffff !important;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color .3s ease;
+}
+
+.nav-link-premium:hover {
+    color: #d4a017 !important;
+}
+
+.nav-link-premium::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0%;
+    background-color: #d4a017;
+    transition: width .3s ease;
+}
+
+.nav-link-premium:hover::after,
+.nav-link-premium.active::after {
+    width: 100%;
+}
+
+.btn-premium-outline {
+    border: 2px solid #d4a017;
+    color: #d4a017;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 8px;
+    transition: .3s ease;
+}
+
+.btn-premium-outline:hover {
+    background-color: #d4a017;
+    color: #000;
+}
+
+.btn-premium-filled {
+    background-color: #d4a017;
+    color: #000;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 8px;
+    transition: .3s ease;
+}
+
+.btn-premium-filled:hover {
+    background-color: #c29015;
+    color: #fff;
+}
+
+/* ESTILOS PARA LOS MODALES DE LOGIN Y REGISTER */
+
+.modal-content {
+    border-radius: 18px;
+    padding: 15px 10px;
+    background: #0f0f0f !important;
+    color: white;
+}
+
+.modal-header {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #d4a017;
+}
+
+.btn-close {
+    filter: invert(1) brightness(200%) !important;
+    opacity: 1;
+}
+
+.btn-close:hover {
+    filter: invert(1) brightness(300%) !important;
+}
+
+.modal-body p,
+.modal-body .small {
+    color: #cfcfcf;
+}
+
+.modal-body a {
+    color: #d4a017 !important;
+    font-weight: 600;
+}
+
+.modal-body a:hover {
+    text-decoration: underline !important;
+}
+
+.modal-body .form-control {
+    background: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    color: white !important;
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: .25s ease;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+    opacity: 1;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.modal-body .form-control:focus {
+    border-color: #d4a017;
+    box-shadow: 0 0 8px rgba(212, 160, 23, 0.35);
+    background: #222;
+}
+
+.modal-body .btn-light,
+.modal-body .btn-primary {
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.modal-body .btn-light {
+    background: white;
+    border: none;
+    color: #333;
+}
+
+.modal-body .btn-light:hover {
+    background: #ececec;
+}
+
+.modal-body .btn-primary {
+    background: #1877f2;
+    border: none;
+}
+
+.modal-body .btn-primary:hover {
+    background: #0f63d1;
+}
+
+.modal-body .btn.btn-primary.w-100.fw-semibold {
+    background: #d4a017 !important;
+    border: none;
+    color: #000 !important;
+    padding: 12px;
+    border-radius: 10px;
+    transition: .3s ease;
+    font-weight: 700;
+}
+
+.modal-body .btn.btn-primary.w-100.fw-semibold:hover {
+    background: #c29015 !important;
+    color: white !important;
+}
+
+.modal-body .btn.btn-success.w-100 {
+    background: #d4a017 !important;
+    color: #000 !important;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: .3s ease;
+}
+
+.modal-body .btn.btn-success.w-100:hover {
+    background: #c29015 !important;
+    color: white !important;
+}
+
+.modal-body .text-secondary.small {
+    color: #999 !important;
+}
+
+.social-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: white;
+    margin: 0 4px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.social-btn.google { background: #db4437; }
+.social-btn.facebook { background: #1877f2; }
+.social-btn.twitter { background: #1da1f2; }
+.social-btn.linkedin { background: #0e76a8; }
+
+.social-btn:hover {
+    filter: brightness(1.15);
+}
+
+.modal-body input[type="checkbox"] {
+    accent-color: #d4a017;
+}
+
+
+
+
+

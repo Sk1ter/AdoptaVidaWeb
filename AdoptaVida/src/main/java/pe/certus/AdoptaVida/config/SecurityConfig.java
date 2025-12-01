@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
 
 
-                .requestMatchers("/", "/css/**", "/img/**").permitAll()
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**").permitAll()
                 .requestMatchers("/login", "/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/register", "/api/auth/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/events/register", "/dashboardAnimals/register").permitAll()
